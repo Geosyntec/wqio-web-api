@@ -1,6 +1,6 @@
 ---
 page_type: sample
-description: "This is a minimal sample app that demonstrates how to run a Python Flask application on Azure App Service on Linux."
+description: "Web API for Regression on Order Statistics"
 languages:
 - python
 products:
@@ -8,12 +8,14 @@ products:
 - azure-app-service
 ---
 
-# Python Flask sample for Azure App Service (Linux)
+# Python Flask App Service for Regression on Order Statistics
 
-This is a minimal sample app that demonstrates how to run a Python Flask application on Azure App Service on Linux.
+This is a minimal app that runs a Python Flask application on Azure App Service on Linux.
+
+## Cribbed from
 
 For more information, please see the [Python on App Service quickstart](https://docs.microsoft.com/azure/app-service/containers/quickstart-python).
 
-## Contributing
+## See also
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+[WQIO](https://www.github.com/Geosyntec/wqio)
