@@ -1,6 +1,10 @@
+import json
+
 from flask import Flask
 from flask import request
 from flask import jsonify
+
+import pandas
 
 from ros import ROS
 
@@ -8,26 +12,26 @@ from ros import ROS
 app = Flask(__name__)
 
 
-@app.route("/echo", methods=["POST"])
+@app.route("/v1/echo", methods=["POST"])
 def echo():
     return jsonify(request.json)
 
 
-@app.route("/as_arrays", methods=["POST"])
+@app.route("/v1/as_arrays", methods=["POST"])
 def as_arrays():
-    values = request.args.getlist("values", float)
-    censored = [bool(x) for x in request.args.getlist("censored", int)]
-    imputed = ROS(values, censored)
+    data = pandas.read_json(request.get_json()).assign(
+        censored=lambda df: df['censored'].astype(bool),
+        values=lambda df: df['values'].astype(float)
+    )
+    imputed = ROS('values', 'censored', df=data)
     return jsonify(imputed)
 
 
-@app.route("/as_parts", methods=["POST"])
+@app.route("/v1/as_parts", methods=["POST"])
 def as_parts():
-    uncen = request.args.getlist("uncensored", float)
-    cen = request.args.getlist("censored", float)
-
-    values = [*cen, *uncen]
-    censored = [*[True for _ in cen], *[False for _ in uncen]]
+    data = json.loads(request.get_json())
+    values = map(float, [*data['censored'], *data['uncensored']])
+    censored = [*[True]*len(data['censored']), *[False]*len(data['uncensored'])]
     imputed = ROS(values, censored)
     return jsonify(imputed)
 
