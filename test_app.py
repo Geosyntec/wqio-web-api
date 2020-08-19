@@ -171,29 +171,25 @@ def expected():
     ]
 
 
-def test_add():        
+def test_add():
     response = app.test_client().post(
-        '/v1/add',
-        data=json.dumps({'a': 1, 'b': 2}),
-        content_type='application/json',
+        "/v1/add", data=json.dumps({"a": 1, "b": 2}), content_type="application/json",
     )
 
     data = json.loads(response.get_data(as_text=True))
     assert response.status_code == 200
-    assert data['sum'] == 3
+    assert data["sum"] == 3
 
 
 def test_echo(client):
-    response = client.get('/echo')
+    response = client.get("/echo")
     assert response.status_code == 200
-    assert response.content_type == 'application/json'
+    assert response.content_type == "application/json"
 
 
 @pytest.mark.parametrize(
-    ("endpoint", "data"), [
-        ("/v1/as_arrays", as_array_data),
-        ("/v1/as_parts", as_parts_data),
-    ]
+    ("endpoint", "data"),
+    [("/v1/as_arrays", as_array_data), ("/v1/as_parts", as_parts_data),],
 )
 def test_ros_endpoints(endpoint, data, expected, client):
     response = client.post(endpoint, json=data)
