@@ -4,7 +4,7 @@ from flask import jsonify
 
 import pandas
 
-from ros import ROS
+from wqio import ROS
 
 
 app = Flask(__name__)
@@ -22,7 +22,7 @@ def as_arrays():
         values=lambda df: df["values"].astype(float),
     )
     imputed = ROS("values", "censored", df=data)
-    return jsonify(imputed)
+    return jsonify(imputed.tolist())
 
 
 @app.route("/v1/as_parts", methods=["POST"])
@@ -31,7 +31,7 @@ def as_parts():
     values = map(float, [*data["censored"], *data["uncensored"]])
     censored = [*[True] * len(data["censored"]), *[False] * len(data["uncensored"])]
     imputed = ROS(values, censored)
-    return jsonify(imputed)
+    return jsonify(imputed.tolist())
 
 
 @app.route("/v1/add", methods=["POST"])
