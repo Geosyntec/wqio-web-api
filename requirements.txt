@@ -8,4 +8,4 @@ numpy==1.19
 scipy==1.5
 pandas==1.1
 requests==2.24
-git+git://github.com/Geosyntec/wqio@releases/tag/v0.5.0#egg=wqio
+git+git://github.com/Geosyntec/wqio@v0.5.0#egg=wqio
